@@ -72,9 +72,15 @@ we do provide a few:
   Trace data can either be queried destructively or non-destructively.
   Destructive queries return the data and remove it from the in-kernel ring
   buffer, thus allowing subsequent functions to be traced. These calls are issued via:
-  ```wget localhost:9090/ftrace/trace_pipe```
+
+  ```
+  wget localhost:9090/ftrace/trace_pipe
+  ```
 
   Non-destructive reads return the ring buffer contents without clearing the
   buffer. These are issed via:
-  ```wget localhost:9090/ftrace/trace```
+  
+  ```
+  wget localhost:9090/ftrace/trace
+  ```
 
