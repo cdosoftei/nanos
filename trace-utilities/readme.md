@@ -22,18 +22,19 @@ Once your application is running, access trace data via http:
 
 This will create a file called `trace` in your working directory that looks like:
 
-* # tracer: function_graph
-  #
-  # CPU  DURATION                  FUNCTION CALLS
-  # |     |   |                     |   |   |   |
-   0)               |  mcache_alloc() {
-   0) ! 207.666 us  |    runtime_memcpy();
-   0)   0.071 us    |    runtime_memcpy();
-   0)   0.077 us    |    objcache_allocate();
-   0) ! 208.173 us  |  }  
-   0)   0.093 us    |  install_fallback_fault_handler();
-   ...
-
+```
+# tracer: function_graph
+#
+# CPU  DURATION                  FUNCTION CALLS
+# |     |   |                     |   |   |   |
+ 0)               |  mcache_alloc() {
+ 0) ! 207.666 us  |    runtime_memcpy();
+ 0)   0.071 us    |    runtime_memcpy();
+ 0)   0.077 us    |    objcache_allocate();
+ 0) ! 208.173 us  |  }  
+ 0)   0.093 us    |  install_fallback_fault_handler();
+ ...
+```
 
 # Trace options
 
