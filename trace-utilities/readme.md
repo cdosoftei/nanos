@@ -43,6 +43,6 @@ we do provide a few:
 
 1. Tracer selection
 
-We implement two different types of tracers:
+* We implement two different types of tracers:
 
-* `function_graph`
+** `function_graph`
