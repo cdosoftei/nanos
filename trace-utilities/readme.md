@@ -1,11 +1,11 @@
-# Overview
+## Overview
 
 Nanos implements a tracing mechanism inspired by [Linux'
 ftrace](https://www.kernel.org/doc/Documentation/trace/ftrace.txt). Here we
 discuss how to enable tracing in nanos and present some utilities for parsing
 the resulting trace data.
 
-# Enabling tracing
+## Enabling tracing
 
 To enable tracing, build nanos be specifying `TRACE=ftrace` on the make command; e.g.,
 
@@ -14,7 +14,7 @@ To enable tracing, build nanos be specifying `TRACE=ftrace` on the make command;
 The resulting kernel will now collect timing data on the invocation of all
 kernel function calls.
 
-# Collecting trace data
+## Collecting trace data
 
 Once your application is running, access trace data via http:
 
@@ -36,7 +36,7 @@ This will create a file called `trace` in your working directory that looks like
  ...
 ```
 
-# Trace options
+## Trace options
 
 While we do not provide nearly the full set of configuration options as Linux,
 we do provide a few:
@@ -46,7 +46,8 @@ we do provide a few:
   * #### function_graph
     The function_graph tracer interposes all function entries and return paths, 
     allowing the kernel to collect entry and exit times for all function calls.
-    This is the default tracer used by the kernel.
+    This is the default tracer used by the kernel, and it creates trace files
+    with the format shown above.
 
   * #### function
     The function tracer only interposes function entries. This mode can currently
