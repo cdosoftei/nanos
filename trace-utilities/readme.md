@@ -64,8 +64,17 @@ we do provide a few:
     current_tracer = &(tracer_list[FTRACE_FUNCTION_IDX]);
     ```
 
-
 ### Trace data consumption
-  Some text
+  Trace data is stored in an in-memory ring buffer, whose size is fixed by default 
+  at 64MB. This buffer fills up relatively quickly, and once it is full, subsequent
+  function calls will not generate trace data.
 
+  Trace data can either be queried destructively or non-destructively.
+  Destructive queries return the data and remove it from the in-kernel ring
+  buffer, thus allowing subsequent functions to be traced. These calls are issued via:
+  ```wget localhost:9090/ftrace/trace_pipe```
+
+  Non-destructive reads return the ring buffer contents without clearing the
+  buffer. These are issed via:
+  ```wget localhost:9090/ftrace/trace```
 
