@@ -41,7 +41,7 @@ This will create a file called `trace` in your working directory that looks like
 While we do not provide nearly the full set of configuration options as Linux,
 we do provide a few:
 
-1. Tracer selection
+### Tracer selection
 
   * #### function_graph
     The function_graph tracer interposes all function entries and return paths, 
@@ -50,8 +50,10 @@ we do provide a few:
     with the format shown above.
 
   * #### function
-    The function tracer only interposes function entries. This mode can currently
-    only be enabled by modifying the `ftrace_enable()` function in
+    The function tracer only interposes function entries. While obviously not
+    as useful for measuring function overheads, this mode creates less overhead
+    and does still provide a full list of all functions invokes. It can
+    currently only be enabled by modifying the `ftrace_enable()` function in
     `src/unix/ftrace.c`, replacing
 
     ```
@@ -62,6 +64,8 @@ we do provide a few:
     current_tracer = &(tracer_list[FTRACE_FUNCTION_IDX]);
     ```
 
-2. Trace consumption
+
+### Trace data consumption
+  Some text
 
 
