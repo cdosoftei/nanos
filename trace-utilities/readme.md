@@ -43,24 +43,23 @@ we do provide a few:
 
 1. Tracer selection
 
-  We implement two different types of tracers:
-    * #### function_graph
-      The function_graph tracer interposes all function entries and return paths, 
-      allowing the kernel to collect entry and exit times for all function calls.
-      This is the default tracer used by the kernel.
+  * #### function_graph
+    The function_graph tracer interposes all function entries and return paths, 
+    allowing the kernel to collect entry and exit times for all function calls.
+    This is the default tracer used by the kernel.
 
-    * #### function
-      The function tracer only interposes function entries. This mode can currently
-      only be enabled by modifying the `ftrace_enable()` function in
-      `src/unix/ftrace.c`, replacing
+  * #### function
+    The function tracer only interposes function entries. This mode can currently
+    only be enabled by modifying the `ftrace_enable()` function in
+    `src/unix/ftrace.c`, replacing
 
-      ```
-      current_tracer = &(tracer_list[FTRACE_FUNCTION_GRAPH_IDX]);
-      ```
-      with
-      ```
-      current_tracer = &(tracer_list[FTRACE_FUNCTION_IDX]);
-      ```
+    ```
+    current_tracer = &(tracer_list[FTRACE_FUNCTION_GRAPH_IDX]);
+    ```
+    with
+    ```
+    current_tracer = &(tracer_list[FTRACE_FUNCTION_IDX]);
+    ```
 
 2. Trace consumption
 
