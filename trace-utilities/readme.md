@@ -46,5 +46,4 @@ we do provide a few:
 We implement two different types of tracers:
 
   * #### function_graph
-
-  function_graph tracing ...
+    function_graph tracing ...
