@@ -141,12 +141,12 @@ boolean blockq_flush_thread(blockq bq, thread t);
 void blockq_set_completion(blockq bq, io_completion completion, thread t,
                            sysreturn rv);
 sysreturn blockq_check_timeout(blockq bq, thread t, blockq_action a, boolean in_bh, 
-                               timestamp timeout);
+                               timestamp timeout, clock_id id);
 int blockq_transfer_waiters(blockq dest, blockq src, int n);
 
 static inline sysreturn blockq_check(blockq bq, thread t, blockq_action a, boolean in_bh)
 {
-    return blockq_check_timeout(bq, t, a, in_bh, 0);
+    return blockq_check_timeout(bq, t, a, in_bh, 0, 0 /* n/a */);
 }
 
 static inline void blockq_handle_completion(blockq bq, u64 bq_flags, io_completion completion, thread t, sysreturn rv)
@@ -210,8 +210,14 @@ typedef struct thread {
     blockq thread_bq;
 
     struct sigstate signals;
-    sigstate dispatch_sigstate; /* saved sigstate while signal handler in flight */
+    sigstate dispatch_sigstate; /* while signal handler in flight, save sigstate... */
+    u64 saved_rax;              /* ... and t->frame[FRAME_RAX] */
     u64 sigframe[FRAME_MAX];
+
+    /* sigs that can wake thread regardless of mask or ignored
+       nonzero when in rt_sigtimedwait) */
+    u64 siginterest;
+
     u16 active_signo;
 
 #ifdef CONFIG_FTRACE
@@ -381,6 +387,7 @@ static inline time_t time_t_from_time(timestamp t)
 void init_sigstate(sigstate ss);
 void sigstate_flush_queue(sigstate ss);
 void sigstate_reset_thread(thread t);
+void thread_clone_sigmask(thread dest, thread src);
 
 static inline void sigstate_thread_restore(thread t)
 {

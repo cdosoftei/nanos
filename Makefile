@@ -16,7 +16,7 @@ CLEANFILES+=	$(IMAGE)
 CLEANDIRS+=	$(OUTDIR)/image
 
 LWIPDIR=	$(VENDORDIR)/lwip
-GITFLAGS+=	--depth 1 https://github.com/nanovms/lwip.git -b STABLE-2_0_3_RELEASE
+GITFLAGS+=	--depth 1  https://github.com/nanovms/lwip.git -b STABLE-2_1_2_RELEASE
 
 # GCE
 GCLOUD= 	gcloud
@@ -86,7 +86,7 @@ test test-noaccel: mkfs boot stage3
 	$(Q) $(MAKE) -C test test
 	$(Q) $(MAKE) runtime-tests$(subst test,,$@)
 
-RUNTIME_TESTS=	creat eventfd fst getdents getrandom hw hws mkdir mmap pipe readv rename sendfile signal socketpair time unlink vsyscall write writev
+RUNTIME_TESTS=	creat epoll eventfd fcntl fst getdents getrandom hw hws mkdir mmap pipe readv rename sendfile signal socketpair time unlink vsyscall write writev
 
 .PHONY: runtime-tests runtime-tests-noaccel
 

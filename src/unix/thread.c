@@ -63,6 +63,7 @@ sysreturn clone(unsigned long flags, void *child_stack, int *ptid, int *ctid, un
     /* clone thread context up to FRAME_VECTOR */
     thread t = create_thread(current->p);
     runtime_memcpy(t->frame, current->frame, sizeof(u64) * FRAME_ERROR_CODE);
+    thread_clone_sigmask(t, current);
 
     /* clone behaves like fork at the syscall level, returning 0 to the child */
     set_syscall_return(t, 0);
@@ -220,6 +221,7 @@ thread create_thread(process p)
     t->file_op_is_complete = false;
     init_sigstate(&t->signals);
     t->dispatch_sigstate = 0;
+    t->siginterest = 0;
     t->active_signo = 0;
 
     if (ftrace_thread_init(t)) {

@@ -2,7 +2,9 @@
 PROGRAMS= \
 	dup \
 	creat \
+	epoll \
 	eventfd \
+	fcntl \
 	fst \
 	ftrace \
 	getdents \
@@ -39,12 +41,22 @@ SRCS-creat= \
 	$(SRCDIR)/unix_process/ssp.c
 LDFLAGS-creat=		-static
 
+SRCS-epoll= \
+	$(CURDIR)/epoll.c \
+	$(SRCDIR)/unix_process/ssp.c
+LDFLAGS-epoll=		-static
+
 SRCS-eventfd= \
 	$(CURDIR)/eventfd.c \
 	$(SRCDIR)/unix_process/ssp.c
 
 LDFLAGS-eventfd=	-static
 LIBS-eventfd=		-lpthread
+
+SRCS-fcntl= \
+	$(CURDIR)/fcntl.c \
+	$(SRCDIR)/unix_process/ssp.c
+LDFLAGS-fcntl=		-static
 
 SRCS-ftrace= \
 	$(CURDIR)/ftrace.c \

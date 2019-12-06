@@ -41,7 +41,7 @@ void sys_timeouts_init(void)
     int n = sizeof(net_lwip_timers) / sizeof(struct net_lwip_timer);
     for (int i = 0; i < n; i++) {
         struct net_lwip_timer * t = (struct net_lwip_timer *)&net_lwip_timers[i];
-        register_periodic_timer(milliseconds(t->interval_ms),
+        register_periodic_timer(milliseconds(t->interval_ms), CLOCK_ID_MONOTONIC,
                                 closure(lwip_heap, dispatch_lwip_timer, t->handler, t->name));
 #ifdef LWIP_DEBUG
         lwip_debug("registered %s timer with period of %ld ms\n", t->name, t->interval_ms);
@@ -72,6 +72,44 @@ void lwip_status_callback(struct netif *netif)
 {
     u8 *n = (u8 *)&netif->ip_addr;
     rprintf("assigned: %d.%d.%d.%d\n", n[0], n[1], n[2], n[3]);
+}
+
+/* unsigned only ... don't imagine we'd have negative interface numbers! */
+int lwip_atoi(const char *p)
+{
+    u64 i;
+    return u64_from_value(alloca_wrap_cstring(p), &i) ? i : -1;
+}
+
+/* mildly unfortunate to add another level of indirection to resolve types
+   that are equivalent ... maybe a runtime types.h would be in order */
+void lwip_memcpy(void *a, const void *b, unsigned long len)
+{
+    runtime_memcpy(a, b, len);
+}
+
+int lwip_strlen(char *a)
+{
+    return runtime_strlen(a);
+}
+
+void lwip_memset(void *x, unsigned char v, unsigned long len)
+{
+    runtime_memset(x, v, len);
+}
+
+int lwip_memcmp(const void *x, const void *y, unsigned long len)
+{
+    return runtime_memcmp(x, y, len);
+}
+
+int lwip_strncmp(const char *x, const char *y, unsigned long len)
+{
+    for (int i = 0; i < len; i++) {
+        if ((*x) != (*y)) return -1;
+        if ((!*x) || (!*y)) return -1;
+    }
+    return 0;
 }
 
 extern void lwip_init();
