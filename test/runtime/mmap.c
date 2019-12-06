@@ -13,6 +13,8 @@
 #include <sys/mman.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/auxv.h>
+#include <sys/time.h>
 
 #define PAGELOG         12
 #define PAGELOG_2M      21
@@ -641,6 +643,12 @@ int main(int argc, char * argv[])
 
     /* flush printfs immediately */
     setbuf(stdout, NULL);
+
+    {
+        struct timeval tv;
+        gettimeofday(&tv, NULL);
+        printf("tv.tv_sec=%ld, tv.tv_usec=%ld\n", tv.tv_sec, tv.tv_usec);
+    }
 
     mmap_test();
     mincore_test();

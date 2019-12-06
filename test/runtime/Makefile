@@ -78,7 +78,7 @@ LDFLAGS-hws=		-static
 
 SRCS-mmap=		$(CURDIR)/mmap.c \
 			$(SRCDIR)/unix_process/ssp.c
-LDFLAGS-mmap=		-static
+LDFLAGS-mmap=		#-static
 
 SRCS-mkdir= \
 	$(CURDIR)/mkdir.c \
@@ -164,7 +164,7 @@ LIBS-socketpair=	-lpthread
 SRCS-time= \
 	$(CURDIR)/time.c \
 	$(SRCDIR)/unix_process/ssp.c
-LDFLAGS-time=		-static
+LDFLAGS-time=		#-static
 
 SRCS-udploop= \
 	$(CURDIR)/udploop.c \

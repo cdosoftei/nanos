@@ -236,7 +236,7 @@ thread create_thread(process p)
     return t;
 }
 
-__attribute__((no_instrument_function))
+NOTRACE 
 void exit_thread(thread t)
 {
     thread_log(current, "exit_thread");

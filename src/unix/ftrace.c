@@ -123,8 +123,8 @@ struct ftrace_tracer {
     /* human readable */
     const char * name;
 
-    /* trace_fn must be marked as 'no_instrument_function' or else you're gonna
-     * blow up the call stack and crash
+    /* trace_fn must be marked as NOTRACE or else you're gonna blow up the call
+     * stack and crash
      *
      * mcount_toggle should be as well as a performance optimization
      */
@@ -503,7 +503,7 @@ __rbuf_acquire_read_entry(struct rbuf * rbuf, struct rbuf_entry ** acquired)
 /*** Start tracer callbacks */
 
 /* nop tracer */
-__attribute__((no_instrument_function)) static void
+NOTRACE static void
 nop_toggle(boolean enable)
 {
     __ftrace_function_fn = ftrace_stub;
@@ -525,7 +525,7 @@ nop_print_header(struct ftrace_printer * p, struct rbuf * rbuf)
     printer_write(p, "#              | |       |         |         |\n");
 }
 
-__attribute__((no_instrument_function)) static void
+NOTRACE static void
 function_trace(unsigned long ip, unsigned long parent_ip)
 {
     struct rbuf_entry * entry;
@@ -563,7 +563,7 @@ drop:
     return;
 }
 
-__attribute__((no_instrument_function)) static void
+NOTRACE static void
 function_toggle(boolean enable)
 {
     if (enable)
@@ -634,7 +634,7 @@ function_print_entry(struct ftrace_printer * p, struct rbuf_entry * entry)
 /*
  * This must always called with rbuf already disabled
  */
-__attribute__((no_instrument_function)) static void
+NOTRACE static void
 function_graph_trace_switch(thread out, thread in)
 {
     struct rbuf_entry * entry;
@@ -672,7 +672,7 @@ drop:
 /*
  * This must always called with rbuf already disabled
  */
-__attribute__((no_instrument_function)) static void
+NOTRACE static void
 function_graph_trace_entry(struct ftrace_graph_entry * stack_entry)
 {
     struct rbuf_entry * entry;
@@ -699,7 +699,7 @@ drop:
 /*
  * This must always called with rbuf already disabled
  */
-__attribute__((no_instrument_function)) static void
+NOTRACE static void
 function_graph_trace_return(struct ftrace_graph_entry * stack_entry)
 {
     struct rbuf_entry * entry;
@@ -724,7 +724,7 @@ drop:
     return;
 }
 
-__attribute__((no_instrument_function)) static void
+NOTRACE static void
 function_graph_toggle(boolean enable)
 {
     if (enable) {
@@ -1833,7 +1833,7 @@ ftrace_thread_init(thread t)
     return 0;
 }
 
-__attribute__((no_instrument_function)) void
+NOTRACE void
 ftrace_thread_deinit(thread t)
 {
     /* complete the current call stack */
@@ -1855,7 +1855,7 @@ ftrace_thread_deinit(thread t)
  * Record the switch event, and record completion times for any functions
  * on the incoming thread's call stack
  */
-__attribute__((no_instrument_function)) void
+NOTRACE void
 ftrace_thread_switch(thread out, thread in)
 {
     if (!rbuf_enabled(&global_rbuf) ||
@@ -1909,7 +1909,7 @@ extern void return_to_handler(void);
  * The frame pointer is just passed so we can sanity check it on function
  * return
  */
-__attribute__((no_instrument_function)) void
+NOTRACE void
 prepare_ftrace_return(unsigned long self, unsigned long * parent,
                       unsigned long frame_pointer)
 {
@@ -1971,7 +1971,7 @@ static void frame_halt(struct ftrace_graph_entry * entry, unsigned long fp2)
     );
 }
 
-__attribute__((no_instrument_function)) unsigned long
+NOTRACE unsigned long
 ftrace_return_to_handler(unsigned long frame_pointer)
 {
     struct ftrace_graph_entry * stack_ent;

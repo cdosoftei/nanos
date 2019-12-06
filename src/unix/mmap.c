@@ -40,6 +40,12 @@ deliver_segv(u64 vaddr, s32 si_code)
         vaddr, (si_code == SEGV_MAPERR) ? "SEGV_MAPPER" : "SEGV_ACCERR"
     );
 
+
+    rprintf("delivering SIGSEGV; vaddr 0x%lx si_code %s\n",
+        vaddr, (si_code == SEGV_MAPERR) ? "SEGV_MAPPER" : "SEGV_ACCERR"
+    );
+
+
     deliver_signal_to_thread(current, &s); 
     thread_yield();
 }
@@ -825,6 +831,15 @@ void mmap_process_init(process p)
 
     /* reserve remainder */
     add_varea(p, user_va_tag_end, U64_FROM_BIT(VIRTUAL_ADDRESS_BITS), 0, false);
+
+    /* randomly determine vdso base and track it */ 
+    {
+        u64 vdso_size = VDSO_NR_PAGES * PAGESIZE;
+        p->vdso_base = allocate_u64(p->virtual_page, vdso_size);
+        assert(allocate_vmap(p->vmaps, 
+            irange(p->vdso_base, p->vdso_base + vdso_size), VMAP_FLAG_EXEC)
+        );
+    }
 
     /* Track vsyscall page */
     assert(allocate_vmap(p->vmaps, irange(VSYSCALL_BASE, VSYSCALL_BASE + PAGESIZE), VMAP_FLAG_EXEC));
