@@ -1,8 +1,8 @@
 #include <runtime.h>
-#include <x86_64.h>
 #include <pvclock.h>
 #include <apic.h>
 #include <page.h>
+#include <x86_64.h>
 #include <vdso.h>
 
 static heap pvclock_heap;

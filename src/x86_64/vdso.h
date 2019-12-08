@@ -28,3 +28,4 @@ VVAR_DECL(struct vdso_dat_struct, vdso_dat);
 
 /* now routines that are accessible from both the VDSO and the core kernel */
 VDSO u64 vdso_pvclock_now_ns(volatile struct pvclock_vcpu_time_info *);
+VDSO timestamp vdso_now(clock_id id);

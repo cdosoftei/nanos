@@ -82,6 +82,7 @@ SRCS-stage3.img= \
 	$(SRCDIR)/x86_64/service.c \
 	$(SRCDIR)/x86_64/symtab.c \
 	$(SRCDIR)/x86_64/synth.c \
+	$(SRCDIR)/x86_64/vdso-now.c \
 	$(SRCS-lwip)
 SRCS-lwip= \
 	$(LWIPDIR)/src/core/def.c \
@@ -136,7 +137,7 @@ AFLAGS+=	-felf64 -I$(OBJDIR)/
 LDFLAGS+=	$(KERNLDFLAGS) -T linker_script
 
 VDSO_OBJDIR=   $(OBJDIR)/vdso
-VDSO_SRCS=     $(SRCDIR)/x86_64/vdso.c $(SRCDIR)/x86_64/clock.c
+VDSO_SRCS=     $(SRCDIR)/x86_64/vdso.c $(SRCDIR)/x86_64/vdso-now.c $(SRCDIR)/x86_64/clock.c
 VDSOGEN_SRC=   $(SRCDIR)/x86_64/vdsogen.c
 OBJDUMPFLAGS=	-d -S -M intel-mnemonic
 

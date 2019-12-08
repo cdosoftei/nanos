@@ -25,7 +25,7 @@ write_header(FILE * fp)
     fprintf(fp, " * - DO NOT MODIFY -\n");
     fprintf(fp, " */\n");
 
-    fprintf(fp, "unsigned char vdso_raw[] __attribute__((aligned (4096))) = {");
+    fprintf(fp, "unsigned char vdso_raw[8192] __attribute__((aligned (4096))) = {");
 }
 
 static void

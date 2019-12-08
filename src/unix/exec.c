@@ -97,7 +97,7 @@ static void build_exec_stack(process p, thread t, Elf64_Ehdr * e, void *start,
         {AT_PAGESZ, PAGESIZE},
         {AT_RANDOM, u64_from_pointer(s)},
         {AT_ENTRY, u64_from_pointer(start)},
-        //{AT_SYSINFO_EHDR, p->vdso_base}
+        {AT_SYSINFO_EHDR, p->vdso_base}
     };
     for (int i = 0; i < sizeof(auxp) / sizeof(auxp[0]); i++) {
         spush(s, auxp[i].val);
