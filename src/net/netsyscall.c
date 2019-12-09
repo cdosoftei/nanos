@@ -637,6 +637,33 @@ closure_function(1, 2, sysreturn, socket_ioctl,
         }
         return 0;
     }
+    case FIONREAD: {
+        int *bytes = varg(ap, int *);
+        *bytes = 0;
+
+        if (s->incoming->count) {
+            void *p = s->incoming->buf[s->incoming->read % s->incoming->size];
+            if (p) {
+                /* For TCP, return the number of immediately readable bytes */
+                if (s->type == SOCK_STREAM) {
+                    struct pbuf *buf = (struct pbuf *)p;
+
+                    while (buf) {
+                        *bytes += (int)buf->len;
+                        buf = buf->next;
+                    }
+                /* For UDP, return the size of the next datagram (if any) */
+                } else if (s->type == SOCK_DGRAM) {
+                    struct pbuf *buf = ((struct udp_entry *)p)->pbuf;
+
+                    if (buf) {
+                        *bytes = (int)buf->len;
+                    }
+                }
+            }
+        }
+        return 0;
+    }
     default:
         return -ENOSYS;
     }
